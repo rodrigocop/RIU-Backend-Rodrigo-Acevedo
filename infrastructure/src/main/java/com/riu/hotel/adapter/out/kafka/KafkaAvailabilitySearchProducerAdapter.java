@@ -29,9 +29,9 @@ public class KafkaAvailabilitySearchProducerAdapter implements AvailabilitySearc
                     .send(hotelAvailabilitySearchesTopic, availabilitySearch.getHotelId(), availabilitySearch)
                     .get();
 
-            log.info("Mensaje enviado a Kafka con clave hotelId={}", availabilitySearch.getHotelId());
+            log.info("Mensaje enviado al topico {} con el id : {}",hotelAvailabilitySearchesTopic, availabilitySearch.getHotelId());
         } catch (Exception e) {
-            log.error("Error enviando mensaje a Kafka", e);
+            log.error("Error enviando mensaje a Kafka para searchId={}", availabilitySearch.getHotelId(), e);
         }
     }
 }

@@ -22,7 +22,7 @@ public class ApiExceptionHandler {
         List<String> errores = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(e -> e.getField() + ": " + e.getDefaultMessage())
+                .map(e -> String.format("%s: %s", e.getField(), e.getDefaultMessage()))
                 .toList();
 
         return ResponseEntity.badRequest()

@@ -15,9 +15,10 @@ public class KafkaAvailabilitySearchConsumerAdapter {
     private final RegisterAvailabilitySearchUseCase registerAvailabilitySearchUseCase;
     private final ObjectMapper objectMapper;
 
-
-    public KafkaAvailabilitySearchConsumerAdapter(RegisterAvailabilitySearchUseCase registerAvailabilitySearchUseCase,
-                                                  ObjectMapper objectMapper) {
+    public KafkaAvailabilitySearchConsumerAdapter(
+            RegisterAvailabilitySearchUseCase registerAvailabilitySearchUseCase,
+            ObjectMapper objectMapper
+    ) {
         this.registerAvailabilitySearchUseCase = registerAvailabilitySearchUseCase;
         this.objectMapper = objectMapper;
     }
@@ -27,17 +28,15 @@ public class KafkaAvailabilitySearchConsumerAdapter {
             groupId = "${app.kafka.consumer.group-id}"
     )
     public void consume(String payload) {
-        AvailabilitySearch availabilitySearch;
         try {
-            availabilitySearch = objectMapper.readValue(payload, AvailabilitySearch.class);
+            AvailabilitySearch availabilitySearch = objectMapper.readValue(payload, AvailabilitySearch.class);
             log.info(
-                    "Mensaje recibido de Kafka (hotelId trazabilidad={}). Se inicia registro en Oracle (sin hotelId)",
-                    availabilitySearch.getHotelId()
-            );
+                    "Mensaje recibido de Kafka: searchId={}, hotelId={}. Persistiendo…",
+                   // availabilitySearch.getSearchId(),
+                    availabilitySearch.getHotelId());
             registerAvailabilitySearchUseCase.register(availabilitySearch);
         } catch (JsonProcessingException e) {
-           log.error("Error al deserializar mensaje de Kafka", e);
+            log.error("Error al deserializar mensaje de Kafka", e);
         }
-
     }
 }

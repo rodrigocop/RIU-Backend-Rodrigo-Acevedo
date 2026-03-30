@@ -5,8 +5,6 @@ import com.riu.hotel.port.out.AvailabilitySearchPersistencePort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Slf4j
 @Component
 public class OracleAvailabilitySearchPersistenceAdapter implements AvailabilitySearchPersistencePort {
@@ -23,23 +21,23 @@ public class OracleAvailabilitySearchPersistenceAdapter implements AvailabilityS
     public void save(AvailabilitySearch availabilitySearch) {
         try {
             AvailabilitySearchEntity entity = AvailabilitySearchEntity.builder()
+                 //   .id(availabilitySearch.getSearchId())
+                    .hotelId(availabilitySearch.getHotelId())
                     .checkInDate(availabilitySearch.getCheckIn())
                     .checkOutDate(availabilitySearch.getCheckOut())
                     .agesJson(availabilitySearch.getAges().toString())
                     .requestedAt(availabilitySearch.getRequestedAt())
-                    .hotelId(availabilitySearch.getHotelId())
-                    .id(UUID.randomUUID().toString())
                     .build();
 
             oracleAvailabilitySearchRepository.save(entity);
             log.info(
-                    "Búsqueda de disponibilidad persistida (checkIn={}, checkOut={}, edades registradas={})",
+                    "Búsqueda persistida: searchId={}, checkIn={}, checkOut={}, número de edades={}",
+                  //  availabilitySearch.getSearchId(),
                     availabilitySearch.getCheckIn(),
                     availabilitySearch.getCheckOut(),
-                    availabilitySearch.getAges().size()
-            );
+                    availabilitySearch.getAges().size());
         } catch (Exception e) {
-            log.error("No se pudo serializar el listado de edades para Oracle", e);
+            log.error("No se pudo serializar ages para Oracle; searchId={}", availabilitySearch.getHotelId(), e);
             throw new IllegalStateException("Error al serializar ages para persistencia", e);
         }
     }
