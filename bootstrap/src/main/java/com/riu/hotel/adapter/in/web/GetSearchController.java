@@ -10,13 +10,15 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/count")
+@RequestMapping("/api/v1/count/{searchId}")
+@Tag(name = "Conteo de búsquedas", description = "Consulta cuántas búsquedas coinciden con los criterios del searchId dado")
 public class GetSearchController {
 
     private final CountEqualSearchesUseCase countEqualSearchesUseCase;
@@ -33,7 +35,7 @@ public class GetSearchController {
                     content = @Content(schema = @Schema(implementation = SearchResponse.class))),
             @ApiResponse(responseCode = "404", description = "No existe ningún registro con ese searchId")
     })
-    @GetMapping(value = "/{searchId}")
+    @GetMapping()
     public ResponseEntity<SearchResponse> getSearchDetails(
             @PathVariable(name = "searchId") @Parameter(description = "ID de la búsqueda a consultar", example = "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
             String searchId) {
