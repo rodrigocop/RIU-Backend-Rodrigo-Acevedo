@@ -1,10 +1,50 @@
-CREATE TABLE HOTEL_AVAILABILITY_SEARCHES (
-                                             ID VARCHAR2(100) PRIMARY KEY,
-                                             HOTEL_ID  varchar2(50) NOT NULL,
-                                             CHECK_IN_DATE DATE NOT NULL,
-                                             CHECK_OUT_DATE DATE NOT NULL,
-                                             AGES VARCHAR2(4000) NOT NULL,
-                                             AGES_HASH VARCHAR2(1000) NOT NULL,
-                                             REQUESTED_AT TIMESTAMP NOT NULL
+ALTER SESSION SET CONTAINER = XEPDB1;
+
+BEGIN
+    EXECUTE IMMEDIATE '
+    ALTER PROFILE DEFAULT LIMIT
+        PASSWORD_LIFE_TIME UNLIMITED
+        PASSWORD_GRACE_TIME UNLIMITED
+        PASSWORD_REUSE_TIME UNLIMITED
+        PASSWORD_REUSE_MAX UNLIMITED
+        FAILED_LOGIN_ATTEMPTS UNLIMITED
+        PASSWORD_LOCK_TIME UNLIMITED
+    ';
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP USER APPHOTEL CASCADE';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -01918 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+CREATE USER APPHOTEL IDENTIFIED BY "PASSHOTEL"
+    DEFAULT TABLESPACE USERS
+    TEMPORARY TABLESPACE TEMP
+    ACCOUNT UNLOCK;
+
+GRANT CREATE SESSION TO APPHOTEL;
+GRANT CREATE TABLE TO APPHOTEL;
+GRANT CREATE SEQUENCE TO APPHOTEL;
+GRANT CREATE VIEW TO APPHOTEL;
+
+ALTER USER APPHOTEL QUOTA UNLIMITED ON USERS;
+
+CREATE TABLE APPHOTEL.HOTEL_AVAILABILITY_SEARCHES (
+                                                      ID                VARCHAR2(100) PRIMARY KEY,
+                                                      HOTEL_ID          VARCHAR2(50) NOT NULL,
+                                                      CHECK_IN_DATE     DATE NOT NULL,
+                                                      CHECK_OUT_DATE    DATE NOT NULL,
+                                                      AGES              VARCHAR2(4000) NOT NULL,
+                                                      AGES_HASH         VARCHAR2(1000) NOT NULL,
+                                                      REQUESTED_AT      TIMESTAMP NOT NULL
 );
 
+COMMIT;

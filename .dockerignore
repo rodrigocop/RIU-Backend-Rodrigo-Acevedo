@@ -1,0 +1,10 @@
+# Build context — solo lo necesario para mvn package dentro de Docker
+target
+.git
+.gitignore
+.idea
+.cursor
+.m2
+*.md
+.DS_Store
+**/.*.swp
