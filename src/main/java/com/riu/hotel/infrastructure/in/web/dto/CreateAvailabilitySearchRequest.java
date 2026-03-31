@@ -11,6 +11,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,7 @@ import lombok.NoArgsConstructor;
 public class CreateAvailabilitySearchRequest {
 
     @NotBlank(message = "El hotelId es obligatorio")
+    @Size(max = 50, message = "El hotelId no puede superar 50 caracteres")
     private String hotelId;
 
     @NotNull(message = "La fecha de entrada (checkIn) es obligatoria")

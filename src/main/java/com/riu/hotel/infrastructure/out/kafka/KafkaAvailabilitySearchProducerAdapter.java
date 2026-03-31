@@ -7,10 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-/**
- * Adaptador de salida: publica eventos de búsqueda hacia Kafka ({@link KafkaTemplate}).
- * El consumidor está en {@code com.riu.hotel.infrastructure.in.kafka}.
- */
 @Slf4j
 @Component
 public class KafkaAvailabilitySearchProducerAdapter implements AvailabilitySearchEventPublisherPort {
@@ -28,17 +24,22 @@ public class KafkaAvailabilitySearchProducerAdapter implements AvailabilitySearc
 
     @Override
     public void publish(AvailabilitySearch availabilitySearch) {
-        try {
-            kafkaTemplate
-                    .send(hotelAvailabilitySearchesTopic, availabilitySearch.getSearchId(), availabilitySearch)
-                    .get();
-
-            log.info(
-                    "Mensaje enviado al tópico {} con searchId={}",
-                    hotelAvailabilitySearchesTopic,
-                    availabilitySearch.getSearchId());
-        } catch (Exception e) {
-            log.error("Error enviando mensaje a Kafka para searchId={}", availabilitySearch.getSearchId(), e);
-        }
+        kafkaTemplate
+                .send(
+                        hotelAvailabilitySearchesTopic,
+                        availabilitySearch.getSearchId(),
+                        availabilitySearch)
+                .whenComplete(
+                        (result, error) -> {
+                            String searchId = availabilitySearch.getSearchId();
+                            if (error != null) {
+                                log.error("Error enviando mensaje a Kafka para searchId={}", searchId, error);
+                                return;
+                            }
+                            log.info(
+                                    "Mensaje enviado al tópico {} con searchId={}",
+                                    hotelAvailabilitySearchesTopic,
+                                    searchId);
+                        });
     }
 }

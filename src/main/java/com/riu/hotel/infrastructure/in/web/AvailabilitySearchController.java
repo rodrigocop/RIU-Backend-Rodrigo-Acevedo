@@ -37,8 +37,7 @@ public class AvailabilitySearchController {
 
     @Operation(
             summary = "Registrar búsqueda de disponibilidad",
-            description = "Genera un searchId, encola el evento en Kafka y responde de inmediato; "
-                    + "el mismo searchId se persiste al procesar el mensaje."
+            description = "Genera un searchId, encola el evento en Kafka y responde de inmediato; el mismo searchId se persiste al procesar el mensaje."
     )
     @ApiResponses({
             @ApiResponse(
