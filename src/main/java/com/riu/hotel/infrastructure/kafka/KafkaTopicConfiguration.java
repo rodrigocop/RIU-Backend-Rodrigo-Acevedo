@@ -7,10 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
-/**
- * Infraestructura Kafka compartida (tópicos). No pertenece al adaptador de entrada (consumidor)
- * ni al de salida (productor).
- */
 @Slf4j
 @Configuration
 public class KafkaTopicConfiguration {

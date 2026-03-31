@@ -8,10 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-/**
- * Adaptador de entrada: consume el tópico de búsquedas y delega en el caso de uso de registro.
- * La publicación está en {@code com.riu.hotel.infrastructure.out.kafka}.
- */
 @Slf4j
 @Component
 public class KafkaAvailabilitySearchConsumerAdapter {

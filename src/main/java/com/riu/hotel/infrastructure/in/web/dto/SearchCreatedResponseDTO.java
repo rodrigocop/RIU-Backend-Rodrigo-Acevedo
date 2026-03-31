@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class SearchCreatedResponseDTO {
 
     @Schema(
-            description = "Identificador único de la búsqueda (coincide con el registro en base de datos)",
+            description = "Identificador único de la búsqueda",
             example = "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
     )
     private String searchId;
