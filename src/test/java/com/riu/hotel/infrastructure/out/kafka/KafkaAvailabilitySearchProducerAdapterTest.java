@@ -10,8 +10,10 @@ import static org.mockito.Mockito.when;
 
 import com.riu.hotel.domain.model.AvailabilitySearch;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -32,6 +34,7 @@ class KafkaAvailabilitySearchProducerAdapterTest {
     }
 
     @Test
+    @Timeout(value = 2, unit = TimeUnit.SECONDS)
     void shouldSendKeyedMessageToTopic() throws Exception {
         @SuppressWarnings("unchecked")
         SendResult<String, AvailabilitySearch> sendResult = mock(SendResult.class);
@@ -47,6 +50,7 @@ class KafkaAvailabilitySearchProducerAdapterTest {
     }
 
     @Test
+    @Timeout(value = 2, unit = TimeUnit.SECONDS)
     void shouldSwallowSendFailure() {
         when(kafkaTemplate.send(eq(TOPIC), eq(sampleAvailabilitySearch().getSearchId()), eq(sampleAvailabilitySearch())))
                 .thenReturn(CompletableFuture.failedFuture(new RuntimeException("broker")));
