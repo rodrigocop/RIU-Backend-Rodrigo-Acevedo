@@ -5,6 +5,8 @@ import com.riu.hotel.port.out.AvailabilitySearchPersistencePort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Slf4j
 @Component
 public class OracleAvailabilitySearchPersistenceAdapter implements AvailabilitySearchPersistencePort {
@@ -20,12 +22,18 @@ public class OracleAvailabilitySearchPersistenceAdapter implements AvailabilityS
     @Override
     public void save(AvailabilitySearch availabilitySearch) {
         try {
+            String ages = availabilitySearch.getAges().stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","));
+            String ageHash = String.valueOf(ages.hashCode());
+
             AvailabilitySearchEntity entity = AvailabilitySearchEntity.builder()
                     .id(availabilitySearch.getSearchId())
                     .hotelId(availabilitySearch.getHotelId())
                     .checkInDate(availabilitySearch.getCheckIn())
                     .checkOutDate(availabilitySearch.getCheckOut())
-                    .agesJson(availabilitySearch.getAges().toString())
+                    .ages(ages)
+                    .agesHash(ageHash)
                     .requestedAt(availabilitySearch.getRequestedAt())
                     .build();
 

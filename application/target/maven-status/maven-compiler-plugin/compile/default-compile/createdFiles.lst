@@ -1,2 +1,3 @@
 com/riu/hotel/application/service/PublishAvailabilitySearchService.class
 com/riu/hotel/application/service/RegisterAvailabilitySearchService.class
+com/riu/hotel/application/service/CountEqualSearchesService.class

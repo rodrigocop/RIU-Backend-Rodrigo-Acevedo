@@ -34,8 +34,11 @@ public class AvailabilitySearchEntity {
     @Column(name = "check_out_date", nullable = false)
     private LocalDate checkOutDate;
 
-    @Column(name = "ages_json", nullable = false, length = 4000)
-    private String agesJson;
+    @Column(name = "ages", nullable = false, length = 4000)
+    private String ages;
+
+    @Column(name = "ages_hash", nullable = false, length = 4000)
+    private String agesHash;
 
     @Column(name = "requested_at", nullable = false)
     private LocalDateTime requestedAt;
