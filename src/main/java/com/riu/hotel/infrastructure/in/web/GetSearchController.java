@@ -2,7 +2,7 @@ package com.riu.hotel.infrastructure.in.web;
 
 import com.riu.hotel.domain.model.EqualSearchesResult;
 import com.riu.hotel.domain.port.in.CountEqualSearchesUseCase;
-import com.riu.hotel.infrastructure.in.web.dto.SearchResponse;
+import com.riu.hotel.infrastructure.in.web.dto.SearchResponseDTO;
 import com.riu.hotel.infrastructure.in.web.dto.SearchSnapshotResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,11 +35,11 @@ public class GetSearchController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Búsqueda encontrada",
-                    content = @Content(schema = @Schema(implementation = SearchResponse.class))),
+                    content = @Content(schema = @Schema(implementation = SearchResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "No existe ningún registro con ese searchId")
     })
     @GetMapping
-    public ResponseEntity<SearchResponse> getSearchDetails(
+    public ResponseEntity<SearchResponseDTO> getSearchDetails(
             @PathVariable(name = "searchId")
             @Parameter(description = "ID de la búsqueda a consultar", example = "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
             String searchId) {
@@ -54,14 +54,14 @@ public class GetSearchController {
                 });
     }
 
-    private SearchResponse toResponse(EqualSearchesResult result) {
+    private SearchResponseDTO toResponse(EqualSearchesResult result) {
         SearchSnapshotResponse snapshot = SearchSnapshotResponse.builder()
                 .hotelId(result.getHotelId())
                 .checkIn(result.getCheckIn())
                 .checkOut(result.getCheckOut())
                 .ages(result.getAges())
                 .build();
-        return SearchResponse.builder()
+        return SearchResponseDTO.builder()
                 .searchId(result.getSearchId())
                 .count(result.getCount())
                 .search(snapshot)

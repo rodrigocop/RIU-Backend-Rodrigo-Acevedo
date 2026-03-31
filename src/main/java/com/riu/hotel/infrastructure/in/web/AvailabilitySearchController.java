@@ -2,8 +2,8 @@ package com.riu.hotel.infrastructure.in.web;
 
 import com.riu.hotel.domain.model.AvailabilitySearch;
 import com.riu.hotel.domain.port.in.PublishAvailabilitySearchUseCase;
-import com.riu.hotel.infrastructure.in.web.dto.CreateAvailabilitySearchRequest;
-import com.riu.hotel.infrastructure.in.web.dto.SearchCreatedResponse;
+import com.riu.hotel.infrastructure.in.web.dto.SearchRequestDTO;
+import com.riu.hotel.infrastructure.in.web.dto.SearchCreatedResponseDTO;
 import com.riu.hotel.infrastructure.in.web.error.ValidationErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -43,7 +43,7 @@ public class AvailabilitySearchController {
             @ApiResponse(
                     responseCode = "202",
                     description = "Aceptada para procesamiento",
-                    content = @Content(schema = @Schema(implementation = SearchCreatedResponse.class))),
+                    content = @Content(schema = @Schema(implementation = SearchCreatedResponseDTO.class))),
             @ApiResponse(
                     responseCode = "400",
                     description = "Errores de validación",
@@ -54,7 +54,7 @@ public class AvailabilitySearchController {
             description = "Solicitud de disponibilidad",
             required = true,
             content = @Content(
-                    schema = @Schema(implementation = CreateAvailabilitySearchRequest.class),
+                    schema = @Schema(implementation = SearchRequestDTO.class),
                     examples =
                             @io.swagger.v3.oas.annotations.media.ExampleObject(
                                     name = "Ejemplo request",
@@ -67,8 +67,8 @@ public class AvailabilitySearchController {
                                               "ages": [30, 29, 1, 3]
                                             }
                                             """)))
-    public ResponseEntity<SearchCreatedResponse> createAvailabilitySearch(
-            @Valid @RequestBody CreateAvailabilitySearchRequest request) {
+    public ResponseEntity<SearchCreatedResponseDTO> createAvailabilitySearch(
+            @Valid @RequestBody SearchRequestDTO request) {
 
         String searchId = UUID.randomUUID().toString();
 
@@ -88,7 +88,7 @@ public class AvailabilitySearchController {
                 request.getHotelId());
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(
-                SearchCreatedResponse.builder().searchId(searchId).build()
+                SearchCreatedResponseDTO.builder().searchId(searchId).build()
         );
     }
 }

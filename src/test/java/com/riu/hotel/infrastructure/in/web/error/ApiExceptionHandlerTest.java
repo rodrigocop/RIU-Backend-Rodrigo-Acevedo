@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.riu.hotel.infrastructure.in.web.AvailabilitySearchController;
-import com.riu.hotel.infrastructure.in.web.dto.CreateAvailabilitySearchRequest;
+import com.riu.hotel.infrastructure.in.web.dto.SearchRequestDTO;
 import java.lang.reflect.Method;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class ApiExceptionHandlerTest {
 
     @Test
     void shouldMapValidationErrorsToBadRequest() throws Exception {
-        var target = CreateAvailabilitySearchRequest.builder().build();
+        var target = SearchRequestDTO.builder().build();
         BeanPropertyBindingResult bindingResult =
                 new BeanPropertyBindingResult(target, "createAvailabilitySearchRequest");
         bindingResult.addError(new FieldError(
@@ -35,7 +35,7 @@ class ApiExceptionHandlerTest {
                 null,
                 "El hotelId es obligatorio"));
         Method controllerMethod = AvailabilitySearchController.class.getDeclaredMethod(
-                "createAvailabilitySearch", CreateAvailabilitySearchRequest.class);
+                "createAvailabilitySearch", SearchRequestDTO.class);
         MethodParameter parameter = new MethodParameter(controllerMethod, 0);
         var ex = new MethodArgumentNotValidException(parameter, bindingResult);
 

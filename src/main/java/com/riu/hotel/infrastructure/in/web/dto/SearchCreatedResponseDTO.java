@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchCreatedResponse {
+public class SearchCreatedResponseDTO {
 
     @Schema(
             description = "Identificador único de la búsqueda (coincide con el registro en base de datos)",
