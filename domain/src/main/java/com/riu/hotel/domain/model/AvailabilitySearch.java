@@ -14,6 +14,8 @@ import lombok.extern.jackson.Jacksonized;
 @Value
 public class AvailabilitySearch {
 
+    String searchId;
+
     String hotelId;
 
     LocalDate checkIn;

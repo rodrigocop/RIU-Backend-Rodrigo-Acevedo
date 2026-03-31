@@ -21,7 +21,7 @@ public class OracleAvailabilitySearchPersistenceAdapter implements AvailabilityS
     public void save(AvailabilitySearch availabilitySearch) {
         try {
             AvailabilitySearchEntity entity = AvailabilitySearchEntity.builder()
-                 //   .id(availabilitySearch.getSearchId())
+                    .id(availabilitySearch.getSearchId())
                     .hotelId(availabilitySearch.getHotelId())
                     .checkInDate(availabilitySearch.getCheckIn())
                     .checkOutDate(availabilitySearch.getCheckOut())
@@ -32,12 +32,12 @@ public class OracleAvailabilitySearchPersistenceAdapter implements AvailabilityS
             oracleAvailabilitySearchRepository.save(entity);
             log.info(
                     "Búsqueda persistida: searchId={}, checkIn={}, checkOut={}, número de edades={}",
-                  //  availabilitySearch.getSearchId(),
+                    availabilitySearch.getSearchId(),
                     availabilitySearch.getCheckIn(),
                     availabilitySearch.getCheckOut(),
                     availabilitySearch.getAges().size());
         } catch (Exception e) {
-            log.error("No se pudo serializar ages para Oracle; searchId={}", availabilitySearch.getHotelId(), e);
+            log.error("No se pudo guardar la entidad con el searchId={}", availabilitySearch.getHotelId(), e);
             throw new IllegalStateException("Error al serializar ages para persistencia", e);
         }
     }

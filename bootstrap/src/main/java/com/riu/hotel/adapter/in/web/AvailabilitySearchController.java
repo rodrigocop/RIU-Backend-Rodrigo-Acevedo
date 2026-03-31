@@ -75,6 +75,7 @@ public class AvailabilitySearchController {
 
         AvailabilitySearch availabilitySearch =
                 AvailabilitySearch.builder()
+                        .searchId(searchId)
                         .hotelId(request.getHotelId())
                         .checkIn(request.getCheckIn())
                         .checkOut(request.getCheckOut())

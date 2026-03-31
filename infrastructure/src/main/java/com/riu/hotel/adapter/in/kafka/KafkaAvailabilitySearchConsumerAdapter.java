@@ -32,7 +32,7 @@ public class KafkaAvailabilitySearchConsumerAdapter {
             AvailabilitySearch availabilitySearch = objectMapper.readValue(payload, AvailabilitySearch.class);
             log.info(
                     "Mensaje recibido de Kafka: searchId={}, hotelId={}. Persistiendo…",
-                   // availabilitySearch.getSearchId(),
+                    availabilitySearch.getSearchId(),
                     availabilitySearch.getHotelId());
             registerAvailabilitySearchUseCase.register(availabilitySearch);
         } catch (JsonProcessingException e) {
