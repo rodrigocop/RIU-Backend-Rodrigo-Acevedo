@@ -10,7 +10,6 @@
     <packaging>jar</packaging>
 
     <name>hotel</name>
-    <description>Backend Hotel — arquitectura hexagonal en un único módulo</description>
 
     <properties>
         <java.version>21</java.version>
