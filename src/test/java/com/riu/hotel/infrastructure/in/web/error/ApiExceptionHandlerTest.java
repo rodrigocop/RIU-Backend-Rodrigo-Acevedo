@@ -44,11 +44,15 @@ class ApiExceptionHandlerTest {
         assertAll(
                 () -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
                 () -> assertNotNull(response.getBody()),
-                () -> assertEquals(
-                        "Existen errores en los datos enviados",
-                        response.getBody().mensaje()),
                 () -> {
-                    List<String> errors = response.getBody().errores();
+                    assertNotNull(response.getBody());
+                    assertEquals(
+                            "Existen errores en los datos enviados",
+                            response.getBody().getMensaje());
+                },
+                () -> {
+                    assertNotNull(response.getBody());
+                    List<String> errors = response.getBody().getErrores();
                     assertAll(
                             () -> assertEquals(1, errors.size()),
                             () -> assertTrue(errors.getFirst().contains("hotelId")));
@@ -64,7 +68,13 @@ class ApiExceptionHandlerTest {
         assertAll(
                 () -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
                 () -> assertNotNull(response.getBody()),
-                () -> assertTrue(response.getBody().mensaje().contains("no es válido")),
-                () -> assertEquals(1, response.getBody().errores().size()));
+                () -> {
+                    assertNotNull(response.getBody());
+                    assertTrue(response.getBody().getMensaje().contains("no es válido"));
+                },
+                () -> {
+                    assertNotNull(response.getBody());
+                    assertEquals(1, response.getBody().getErrores().size());
+                });
     }
 }

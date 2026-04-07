@@ -2,14 +2,13 @@ package com.riu.hotel.domain.model;
 
 import java.time.LocalDate;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
+
+@Value
+@Jacksonized
 @Builder
 public class EqualSearchesResult {
 

@@ -1,12 +1,12 @@
 package com.riu.hotel.application.service;
 
-import static com.riu.hotel.testsupport.HotelTestFixtures.AGES;
-import static com.riu.hotel.testsupport.HotelTestFixtures.CHECK_IN;
-import static com.riu.hotel.testsupport.HotelTestFixtures.CHECK_OUT;
-import static com.riu.hotel.testsupport.HotelTestFixtures.EQUAL_COUNT;
-import static com.riu.hotel.testsupport.HotelTestFixtures.HOTEL_ID;
-import static com.riu.hotel.testsupport.HotelTestFixtures.SEARCH_ID;
-import static com.riu.hotel.testsupport.HotelTestFixtures.sampleSearchCriteria;
+import static com.riu.hotel.HotelTestFactory.AGES;
+import static com.riu.hotel.HotelTestFactory.CHECK_IN;
+import static com.riu.hotel.HotelTestFactory.CHECK_OUT;
+import static com.riu.hotel.HotelTestFactory.EQUAL_COUNT;
+import static com.riu.hotel.HotelTestFactory.HOTEL_ID;
+import static com.riu.hotel.HotelTestFactory.SEARCH_ID;
+import static com.riu.hotel.HotelTestFactory.sampleEqualSearchesResult;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,20 +39,19 @@ class CountEqualSearchesServiceTest {
 
     @Test
     void shouldReturnEmptyWhenSearchIdUnknown() {
-        when(availabilitySearchQueryPort.findBySearchId(SEARCH_ID)).thenReturn(Optional.empty());
+        when(availabilitySearchQueryPort.findDetailWithEqualCount(SEARCH_ID)).thenReturn(Optional.empty());
 
         Optional<?> result = countEqualSearchesService.execute(SEARCH_ID);
 
         assertAll(
                 () -> assertTrue(result.isEmpty(), "no debe haber resultado si no existe el searchId"),
-                () -> verify(availabilitySearchQueryPort).findBySearchId(SEARCH_ID));
+                () -> verify(availabilitySearchQueryPort).findDetailWithEqualCount(SEARCH_ID));
     }
 
     @Test
     void shouldReturnCountAndSnapshotWhenSearchExists() {
-        var criteria = sampleSearchCriteria();
-        when(availabilitySearchQueryPort.findBySearchId(SEARCH_ID)).thenReturn(Optional.of(criteria));
-        when(availabilitySearchQueryPort.countByCriteria(criteria)).thenReturn(EQUAL_COUNT);
+        when(availabilitySearchQueryPort.findDetailWithEqualCount(SEARCH_ID))
+                .thenReturn(Optional.of(sampleEqualSearchesResult()));
 
         var result = countEqualSearchesService.execute(SEARCH_ID).orElseThrow();
 
@@ -63,7 +62,6 @@ class CountEqualSearchesServiceTest {
                 () -> assertEquals(CHECK_OUT, result.getCheckOut()),
                 () -> assertEquals(AGES, result.getAges()),
                 () -> assertEquals(EQUAL_COUNT, result.getCount()),
-                () -> verify(availabilitySearchQueryPort).findBySearchId(SEARCH_ID),
-                () -> verify(availabilitySearchQueryPort).countByCriteria(criteria));
+                () -> verify(availabilitySearchQueryPort).findDetailWithEqualCount(SEARCH_ID));
     }
 }

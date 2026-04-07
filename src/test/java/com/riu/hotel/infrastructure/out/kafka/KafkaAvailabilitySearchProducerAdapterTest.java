@@ -1,6 +1,6 @@
 package com.riu.hotel.infrastructure.out.kafka;
 
-import static com.riu.hotel.testsupport.HotelTestFixtures.sampleAvailabilitySearch;
+import static com.riu.hotel.HotelTestFactory.sampleAvailabilitySearch;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;

@@ -1,7 +1,7 @@
 package com.riu.hotel.infrastructure.in.web;
 
+import com.riu.hotel.application.port.in.CountEqualSearchesUseCase;
 import com.riu.hotel.domain.model.EqualSearchesResult;
-import com.riu.hotel.domain.port.in.CountEqualSearchesUseCase;
 import com.riu.hotel.infrastructure.in.web.dto.SearchResponseDTO;
 import com.riu.hotel.infrastructure.in.web.dto.SearchSnapshotResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,7 +55,8 @@ public class GetSearchController {
     }
 
     private SearchResponseDTO toResponse(EqualSearchesResult result) {
-        SearchSnapshotResponse snapshot = SearchSnapshotResponse.builder()
+        SearchSnapshotResponse snapshot = SearchSnapshotResponse
+                .builder()
                 .hotelId(result.getHotelId())
                 .checkIn(result.getCheckIn())
                 .checkOut(result.getCheckOut())
@@ -63,8 +64,8 @@ public class GetSearchController {
                 .build();
         return SearchResponseDTO.builder()
                 .searchId(result.getSearchId())
-                .count(result.getCount())
                 .search(snapshot)
+                .count(result.getCount())
                 .build();
     }
 }

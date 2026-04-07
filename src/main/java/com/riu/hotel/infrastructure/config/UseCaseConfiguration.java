@@ -1,11 +1,11 @@
-package com.riu.hotel.application.config;
+package com.riu.hotel.infrastructure.config;
 
+import com.riu.hotel.application.port.in.CountEqualSearchesUseCase;
+import com.riu.hotel.application.port.in.PublishAvailabilitySearchUseCase;
+import com.riu.hotel.application.port.in.RegisterAvailabilitySearchUseCase;
 import com.riu.hotel.application.service.CountEqualSearchesService;
 import com.riu.hotel.application.service.PublishAvailabilitySearchService;
 import com.riu.hotel.application.service.RegisterAvailabilitySearchService;
-import com.riu.hotel.domain.port.in.CountEqualSearchesUseCase;
-import com.riu.hotel.domain.port.in.PublishAvailabilitySearchUseCase;
-import com.riu.hotel.domain.port.in.RegisterAvailabilitySearchUseCase;
 import com.riu.hotel.domain.port.out.AvailabilitySearchEventPublisherPort;
 import com.riu.hotel.domain.port.out.AvailabilitySearchPersistencePort;
 import com.riu.hotel.domain.port.out.AvailabilitySearchQueryPort;

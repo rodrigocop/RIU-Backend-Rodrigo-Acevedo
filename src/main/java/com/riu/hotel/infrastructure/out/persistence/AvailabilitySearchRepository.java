@@ -1,16 +1,27 @@
 package com.riu.hotel.infrastructure.out.persistence;
 
-import java.time.LocalDate;
+import java.util.Optional;
+
+import com.riu.hotel.infrastructure.out.persistence.dto.SearchWithCount;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AvailabilitySearchRepository extends JpaRepository<AvailabilitySearchEntity, String> {
 
-    long countByHotelIdAndCheckInDateAndCheckOutDateAndAgesHash(
-            String hotelId,
-            LocalDate checkInDate,
-            LocalDate checkOutDate,
-            String agesHash
-    );
+    @Query("""
+            select new com.riu.hotel.infrastructure.out.persistence.dto.SearchWithCount(e,
+                   (select count(e2)
+                     from AvailabilitySearchEntity e2
+                     where e2.hotelId = e.hotelId
+                       and e2.checkInDate = e.checkInDate
+                       and e2.checkOutDate = e.checkOutDate
+                       and e2.agesHash = e.agesHash)
+                   )
+            from AvailabilitySearchEntity e
+           where e.id = :id
+          """)
+    Optional<SearchWithCount> findWithDuplicateCount(@Param("id") String id);
 }

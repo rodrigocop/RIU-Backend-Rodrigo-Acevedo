@@ -12,36 +12,35 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
+
 import java.time.LocalDate;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Schema(name = "CreateAvailabilitySearchRequest", description = "Solicitud de reserva")
-@Data
+@Value
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchRequestDTO {
 
     @NotBlank(message = "El hotelId es obligatorio")
     @Size(max = 50, message = "El hotelId no puede superar 50 caracteres")
-    private String hotelId;
+    String hotelId;
 
     @NotNull(message = "La fecha de entrada (checkIn) es obligatoria")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate checkIn;
+    LocalDate checkIn;
 
     @NotNull(message = "La fecha de salida (checkOut) es obligatoria")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate checkOut;
+    LocalDate checkOut;
 
     @NotEmpty(message = "Debe indicar al menos una edad en el arreglo ages")
     @Valid
-    private List<
+    List<
             @NotNull(message = "Cada elemento de ages debe ser un número (no null)")
             @Min(value = 0, message = "La edad no puede ser menor que {value}")
             @Max(value = 120, message = "La edad no puede ser mayor que {value}")

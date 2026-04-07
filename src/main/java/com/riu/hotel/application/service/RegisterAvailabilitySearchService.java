@@ -1,7 +1,7 @@
 package com.riu.hotel.application.service;
 
 import com.riu.hotel.domain.model.AvailabilitySearch;
-import com.riu.hotel.domain.port.in.RegisterAvailabilitySearchUseCase;
+import com.riu.hotel.application.port.in.RegisterAvailabilitySearchUseCase;
 import com.riu.hotel.domain.port.out.AvailabilitySearchPersistencePort;
 
 public class RegisterAvailabilitySearchService implements RegisterAvailabilitySearchUseCase {

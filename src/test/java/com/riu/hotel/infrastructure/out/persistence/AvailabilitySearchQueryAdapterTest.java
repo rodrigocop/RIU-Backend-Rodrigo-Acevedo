@@ -1,14 +1,12 @@
 package com.riu.hotel.infrastructure.out.persistence;
 
-import static com.riu.hotel.testsupport.HotelTestFixtures.AGES;
-import static com.riu.hotel.testsupport.HotelTestFixtures.CHECK_IN;
-import static com.riu.hotel.testsupport.HotelTestFixtures.CHECK_OUT;
-import static com.riu.hotel.testsupport.HotelTestFixtures.EQUAL_COUNT;
-import static com.riu.hotel.testsupport.HotelTestFixtures.HOTEL_ID;
-import static com.riu.hotel.testsupport.HotelTestFixtures.SEARCH_ID;
-import static com.riu.hotel.testsupport.HotelTestFixtures.agesHash;
-import static com.riu.hotel.testsupport.HotelTestFixtures.sampleEntity;
-import static com.riu.hotel.testsupport.HotelTestFixtures.sampleSearchCriteria;
+import static com.riu.hotel.HotelTestFactory.AGES;
+import static com.riu.hotel.HotelTestFactory.CHECK_IN;
+import static com.riu.hotel.HotelTestFactory.CHECK_OUT;
+import static com.riu.hotel.HotelTestFactory.EQUAL_COUNT;
+import static com.riu.hotel.HotelTestFactory.HOTEL_ID;
+import static com.riu.hotel.HotelTestFactory.SEARCH_ID;
+import static com.riu.hotel.HotelTestFactory.sampleEntity;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,6 +14,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import com.riu.hotel.domain.model.EqualSearchesResult;
+import com.riu.hotel.infrastructure.out.persistence.dto.SearchWithCount;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -40,41 +40,29 @@ class AvailabilitySearchQueryAdapterTest {
 
     @Test
     void shouldReturnEmptyWhenIdMissing() {
-        when(repository.findById(SEARCH_ID)).thenReturn(Optional.empty());
+        when(repository.findWithDuplicateCount(SEARCH_ID)).thenReturn(Optional.empty());
 
-        Optional<?> found = adapter.findBySearchId(SEARCH_ID);
+        Optional<EqualSearchesResult> found = adapter.findDetailWithEqualCount(SEARCH_ID);
 
         assertAll(
                 () -> assertTrue(found.isEmpty()),
-                () -> verify(repository).findById(SEARCH_ID));
+                () -> verify(repository).findWithDuplicateCount(SEARCH_ID));
     }
 
     @Test
-    void shouldMapEntityToCriteria() {
-        when(repository.findById(SEARCH_ID)).thenReturn(Optional.of(sampleEntity()));
+    void shouldMapRowToEqualSearchesResult() {
+        when(repository.findWithDuplicateCount(SEARCH_ID))
+                .thenReturn(Optional.of(new SearchWithCount(sampleEntity(), EQUAL_COUNT)));
 
-        var criteria = adapter.findBySearchId(SEARCH_ID).orElseThrow();
-
-        assertAll(
-                () -> assertEquals(HOTEL_ID, criteria.getHotelId()),
-                () -> assertEquals(CHECK_IN, criteria.getCheckIn()),
-                () -> assertEquals(CHECK_OUT, criteria.getCheckOut()),
-                () -> assertEquals(AGES, criteria.getAges()),
-                () -> assertEquals(agesHash(AGES), criteria.getAgeHash()),
-                () -> verify(repository).findById(SEARCH_ID));
-    }
-
-    @Test
-    void shouldDelegateCountByCriteria() {
-        var criteria = sampleSearchCriteria();
-        when(repository.countByHotelIdAndCheckInDateAndCheckOutDateAndAgesHash(
-                HOTEL_ID, CHECK_IN, CHECK_OUT, agesHash(AGES))).thenReturn(EQUAL_COUNT);
-
-        long count = adapter.countByCriteria(criteria);
+        var result = adapter.findDetailWithEqualCount(SEARCH_ID).orElseThrow();
 
         assertAll(
-                () -> assertEquals(EQUAL_COUNT, count),
-                () -> verify(repository).countByHotelIdAndCheckInDateAndCheckOutDateAndAgesHash(
-                        HOTEL_ID, CHECK_IN, CHECK_OUT, agesHash(AGES)));
+                () -> assertEquals(SEARCH_ID, result.getSearchId()),
+                () -> assertEquals(HOTEL_ID, result.getHotelId()),
+                () -> assertEquals(CHECK_IN, result.getCheckIn()),
+                () -> assertEquals(CHECK_OUT, result.getCheckOut()),
+                () -> assertEquals(AGES, result.getAges()),
+                () -> assertEquals(EQUAL_COUNT, result.getCount()),
+                () -> verify(repository).findWithDuplicateCount(SEARCH_ID));
     }
 }

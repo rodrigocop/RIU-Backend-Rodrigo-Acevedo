@@ -3,7 +3,7 @@ package com.riu.hotel.infrastructure.in.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.riu.hotel.domain.model.AvailabilitySearch;
-import com.riu.hotel.domain.port.in.RegisterAvailabilitySearchUseCase;
+import com.riu.hotel.application.port.in.RegisterAvailabilitySearchUseCase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;

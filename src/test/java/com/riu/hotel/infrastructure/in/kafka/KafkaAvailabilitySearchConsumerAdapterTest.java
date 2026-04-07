@@ -1,7 +1,7 @@
 package com.riu.hotel.infrastructure.in.kafka;
 
-import static com.riu.hotel.testsupport.HotelTestFixtures.sampleAvailabilitySearch;
-import static com.riu.hotel.testsupport.HotelTestFixtures.availabilitySearchAsJson;
+import static com.riu.hotel.HotelTestFactory.sampleAvailabilitySearch;
+import static com.riu.hotel.HotelTestFactory.availabilitySearchAsJson;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.riu.hotel.domain.model.AvailabilitySearch;
-import com.riu.hotel.domain.port.in.RegisterAvailabilitySearchUseCase;
+import com.riu.hotel.application.port.in.RegisterAvailabilitySearchUseCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,7 +59,7 @@ class KafkaAvailabilitySearchConsumerAdapterTest {
                 .thenThrow(JsonProcessingException.class);
 
         assertAll(
-                () -> adapter.consume("{no-es-json}"),
+                () -> adapter.consume("{no-es-un-json-valido}"),
                 () -> verify(registerAvailabilitySearchUseCase, never()).execute(any()),
                 () -> verify(objectMapper).readValue(anyString(), eq(AvailabilitySearch.class)));
     }

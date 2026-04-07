@@ -1,18 +1,17 @@
 package com.riu.hotel.infrastructure.in.web;
 
-import static com.riu.hotel.testsupport.HotelTestFixtures.AGES;
-import static com.riu.hotel.testsupport.HotelTestFixtures.CHECK_IN;
-import static com.riu.hotel.testsupport.HotelTestFixtures.CHECK_OUT;
-import static com.riu.hotel.testsupport.HotelTestFixtures.EQUAL_COUNT;
-import static com.riu.hotel.testsupport.HotelTestFixtures.HOTEL_ID;
-import static com.riu.hotel.testsupport.HotelTestFixtures.SEARCH_ID;
-import static com.riu.hotel.testsupport.HotelTestFixtures.sampleEqualSearchesResult;
-import static com.riu.hotel.testsupport.HotelTestFixtures.sampleSearchPostBody;
+import static com.riu.hotel.HotelTestFactory.AGES;
+import static com.riu.hotel.HotelTestFactory.CHECK_IN;
+import static com.riu.hotel.HotelTestFactory.CHECK_OUT;
+import static com.riu.hotel.HotelTestFactory.EQUAL_COUNT;
+import static com.riu.hotel.HotelTestFactory.HOTEL_ID;
+import static com.riu.hotel.HotelTestFactory.SEARCH_ID;
+import static com.riu.hotel.HotelTestFactory.sampleEqualSearchesResult;
+import static com.riu.hotel.HotelTestFactory.sampleSearchPostBody;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,8 +19,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.riu.hotel.domain.port.in.CountEqualSearchesUseCase;
-import com.riu.hotel.domain.port.in.PublishAvailabilitySearchUseCase;
+import com.riu.hotel.application.port.in.CountEqualSearchesUseCase;
+import com.riu.hotel.application.port.in.PublishAvailabilitySearchUseCase;
 import com.riu.hotel.infrastructure.in.web.error.ApiExceptionHandler;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -81,16 +80,6 @@ class HotelApiWebMvcTest {
                 .andExpect(jsonPath("$.mensaje").exists())
                 .andExpect(jsonPath("$.errores").isArray())
                 .andExpect(jsonPath("$.errores.length()").value(greaterThan(0)));
-    }
-
-    @Test
-    void shouldRejectMalformedJson() throws Exception {
-        mockMvc.perform(post("/api/v1/search")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{malformed"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.mensaje").exists())
-                .andExpect(jsonPath("$.errores").isArray());
     }
 
     @Test

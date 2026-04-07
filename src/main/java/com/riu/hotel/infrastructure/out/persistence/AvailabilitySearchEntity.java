@@ -25,7 +25,7 @@ public class AvailabilitySearchEntity {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "hotel_id", nullable = false, length = 4000)
+    @Column(name = "hotel_id", nullable = false, length = 50)
     private String hotelId;
 
     @Column(name = "check_in_date", nullable = false)
@@ -37,7 +37,7 @@ public class AvailabilitySearchEntity {
     @Column(name = "ages", nullable = false, length = 4000)
     private String ages;
 
-    @Column(name = "ages_hash", nullable = false, length = 4000)
+    @Column(name = "ages_hash", nullable = false, length = 1000)
     private String agesHash;
 
     @Column(name = "requested_at", nullable = false)

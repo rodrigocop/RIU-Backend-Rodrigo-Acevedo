@@ -3,6 +3,7 @@ package com.riu.hotel.infrastructure.kafka;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.riu.hotel.infrastructure.config.KafkaTopicConfiguration;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

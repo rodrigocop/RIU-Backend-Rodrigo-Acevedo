@@ -100,10 +100,10 @@
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>com/riu/hotel/HotelApplication</exclude>
-                        <exclude>com/riu/hotel/application/config/JpaAdapterConfiguration</exclude>
+                        <exclude>com/riu/hotel/infrastructure/in/web/dto/**</exclude>
+                        <exclude>com/riu/hotel/infrastructure/in/web/error/**</exclude>
+                        <exclude>com/riu/hotel/domain/model/**</exclude>
                         <exclude>com/riu/hotel/infrastructure/out/persistence/AvailabilitySearchEntity</exclude>
-                        <exclude>com/riu/hotel/infrastructure/out/persistence/AvailabilitySearchRepository</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -139,6 +139,27 @@
                                     </limits>
                                 </rule>
                             </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>mostrar-ruta-informe-jacoco</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="" />
+                                <echo message="JaCoCo: informe HTML en file://${project.build.directory}/site/jacoco/index.html" />
+                                <echo message="" />
+                            </target>
                         </configuration>
                     </execution>
                 </executions>

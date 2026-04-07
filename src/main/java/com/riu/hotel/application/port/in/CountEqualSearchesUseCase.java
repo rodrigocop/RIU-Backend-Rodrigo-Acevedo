@@ -1,4 +1,4 @@
-package com.riu.hotel.domain.port.in;
+package com.riu.hotel.application.port.in;
 
 import com.riu.hotel.domain.model.EqualSearchesResult;
 import java.util.Optional;

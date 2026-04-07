@@ -1,8 +1,8 @@
-package com.riu.hotel.domain.port.in;
+package com.riu.hotel.application.port.in;
 
 import com.riu.hotel.domain.model.AvailabilitySearch;
 
-public interface RegisterAvailabilitySearchUseCase {
+public interface PublishAvailabilitySearchUseCase {
 
     void execute(AvailabilitySearch availabilitySearch);
 }

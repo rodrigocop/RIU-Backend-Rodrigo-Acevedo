@@ -1,14 +1,14 @@
 package com.riu.hotel.infrastructure.out.persistence;
 
-import static com.riu.hotel.testsupport.HotelTestFixtures.AGES;
-import static com.riu.hotel.testsupport.HotelTestFixtures.CHECK_IN;
-import static com.riu.hotel.testsupport.HotelTestFixtures.CHECK_OUT;
-import static com.riu.hotel.testsupport.HotelTestFixtures.HOTEL_ID;
-import static com.riu.hotel.testsupport.HotelTestFixtures.SEARCH_ID;
-import static com.riu.hotel.testsupport.HotelTestFixtures.REQUESTED_AT;
-import static com.riu.hotel.testsupport.HotelTestFixtures.agesCsv;
-import static com.riu.hotel.testsupport.HotelTestFixtures.agesHash;
-import static com.riu.hotel.testsupport.HotelTestFixtures.sampleAvailabilitySearch;
+import static com.riu.hotel.HotelTestFactory.AGES;
+import static com.riu.hotel.HotelTestFactory.CHECK_IN;
+import static com.riu.hotel.HotelTestFactory.CHECK_OUT;
+import static com.riu.hotel.HotelTestFactory.HOTEL_ID;
+import static com.riu.hotel.HotelTestFactory.SEARCH_ID;
+import static com.riu.hotel.HotelTestFactory.REQUESTED_AT;
+import static com.riu.hotel.HotelTestFactory.agesToString;
+import static com.riu.hotel.HotelTestFactory.agesHash;
+import static com.riu.hotel.HotelTestFactory.sampleAvailabilitySearch;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -56,7 +56,7 @@ class AvailabilitySearchPersistenceAdapterTest {
                             () -> assertEquals(HOTEL_ID, e.getHotelId()),
                             () -> assertEquals(CHECK_IN, e.getCheckInDate()),
                             () -> assertEquals(CHECK_OUT, e.getCheckOutDate()),
-                            () -> assertEquals(agesCsv(AGES), e.getAges()),
+                            () -> assertEquals(agesToString(AGES), e.getAges()),
                             () -> assertEquals(agesHash(AGES), e.getAgesHash()),
                             () -> assertEquals(REQUESTED_AT, e.getRequestedAt()));
                 });

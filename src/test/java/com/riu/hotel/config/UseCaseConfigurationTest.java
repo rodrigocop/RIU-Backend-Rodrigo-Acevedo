@@ -1,15 +1,16 @@
-package com.riu.hotel.application.config;
+package com.riu.hotel.config;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 
-import com.riu.hotel.domain.port.in.CountEqualSearchesUseCase;
-import com.riu.hotel.domain.port.in.PublishAvailabilitySearchUseCase;
-import com.riu.hotel.domain.port.in.RegisterAvailabilitySearchUseCase;
+import com.riu.hotel.application.port.in.CountEqualSearchesUseCase;
+import com.riu.hotel.application.port.in.PublishAvailabilitySearchUseCase;
+import com.riu.hotel.application.port.in.RegisterAvailabilitySearchUseCase;
 import com.riu.hotel.domain.port.out.AvailabilitySearchEventPublisherPort;
 import com.riu.hotel.domain.port.out.AvailabilitySearchPersistencePort;
 import com.riu.hotel.domain.port.out.AvailabilitySearchQueryPort;
+import com.riu.hotel.infrastructure.config.UseCaseConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

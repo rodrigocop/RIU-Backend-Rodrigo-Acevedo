@@ -1,9 +1,10 @@
-package com.riu.hotel.application.config;
+package com.riu.hotel.config;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.riu.hotel.infrastructure.config.OpenApiConfiguration;
 import org.junit.jupiter.api.Test;
 
 class OpenApiConfigurationTest {

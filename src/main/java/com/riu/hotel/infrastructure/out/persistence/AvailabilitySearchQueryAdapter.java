@@ -1,9 +1,12 @@
 package com.riu.hotel.infrastructure.out.persistence;
 
-import com.riu.hotel.domain.model.SearchCriteria;
+import com.riu.hotel.domain.model.EqualSearchesResult;
 import com.riu.hotel.domain.port.out.AvailabilitySearchQueryPort;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+
+import com.riu.hotel.infrastructure.out.persistence.dto.SearchWithCount;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -18,30 +21,28 @@ public class AvailabilitySearchQueryAdapter implements AvailabilitySearchQueryPo
     }
 
     @Override
-    public Optional<SearchCriteria> findBySearchId(String searchId) {
-        return repository.findById(searchId).map(this::toCriteria);
+    public Optional<EqualSearchesResult> findDetailWithEqualCount(String searchId) {
+        return repository.findWithDuplicateCount(searchId)
+                .map(result -> {
+                    AvailabilitySearchEntity entity = result.entity();
+                    long equalCount = result.count();
+
+                    return EqualSearchesResult.builder()
+                            .searchId(entity.getId())
+                            .hotelId(entity.getHotelId())
+                            .checkIn(entity.getCheckInDate())
+                            .checkOut(entity.getCheckOutDate())
+                            .ages(parseAges(entity.getAges()))
+                            .count(equalCount)
+                            .build();
+                });
     }
 
-    @Override
-    public long countByCriteria(SearchCriteria criteria) {
-        return repository.countByHotelIdAndCheckInDateAndCheckOutDateAndAgesHash(
-                criteria.getHotelId(),
-                criteria.getCheckIn(),
-                criteria.getCheckOut(),
-                criteria.getAgeHash()
-        );
-    }
-
-    private SearchCriteria toCriteria(AvailabilitySearchEntity entity) {
-        return SearchCriteria.builder()
-                .hotelId(entity.getHotelId())
-                .checkIn(entity.getCheckInDate())
-                .checkOut(entity.getCheckOutDate())
-                .ages(Arrays.stream(entity.getAges().split(","))
-                        .map(String::trim)
-                        .map(Integer::valueOf)
-                        .toList())
-                .ageHash(entity.getAgesHash())
-                .build();
+    private static List<Integer> parseAges(String agesCsv) {
+        return Arrays.stream(agesCsv.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .map(Integer::valueOf)
+                .toList();
     }
 }

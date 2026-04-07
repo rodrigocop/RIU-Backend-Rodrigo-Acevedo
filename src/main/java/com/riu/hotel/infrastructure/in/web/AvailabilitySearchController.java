@@ -1,9 +1,9 @@
 package com.riu.hotel.infrastructure.in.web;
 
+import com.riu.hotel.application.port.in.PublishAvailabilitySearchUseCase;
 import com.riu.hotel.domain.model.AvailabilitySearch;
-import com.riu.hotel.domain.port.in.PublishAvailabilitySearchUseCase;
-import com.riu.hotel.infrastructure.in.web.dto.SearchRequestDTO;
 import com.riu.hotel.infrastructure.in.web.dto.SearchCreatedResponseDTO;
+import com.riu.hotel.infrastructure.in.web.dto.SearchRequestDTO;
 import com.riu.hotel.infrastructure.in.web.error.ValidationErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -85,10 +85,8 @@ public class AvailabilitySearchController {
         log.info(
                 "Búsqueda encolada: searchId={}, hotelId de trazabilidad {}",
                 searchId,
-                request.getHotelId());
+                request.getAges());
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(
-                SearchCreatedResponseDTO.builder().searchId(searchId).build()
-        );
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(SearchCreatedResponseDTO.builder().searchId(searchId).build());
     }
 }
