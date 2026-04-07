@@ -56,12 +56,12 @@ class CountEqualSearchesServiceTest {
         var result = countEqualSearchesService.execute(SEARCH_ID).orElseThrow();
 
         assertAll(
-                () -> assertEquals(SEARCH_ID, result.getSearchId()),
-                () -> assertEquals(HOTEL_ID, result.getHotelId()),
-                () -> assertEquals(CHECK_IN, result.getCheckIn()),
-                () -> assertEquals(CHECK_OUT, result.getCheckOut()),
-                () -> assertEquals(AGES, result.getAges()),
-                () -> assertEquals(EQUAL_COUNT, result.getCount()),
+                () -> assertEquals(SEARCH_ID, result.searchId()),
+                () -> assertEquals(HOTEL_ID, result.hotelId()),
+                () -> assertEquals(CHECK_IN, result.checkIn()),
+                () -> assertEquals(CHECK_OUT, result.checkOut()),
+                () -> assertEquals(AGES, result.ages()),
+                () -> assertEquals(EQUAL_COUNT, result.count()),
                 () -> verify(availabilitySearchQueryPort).findDetailWithEqualCount(SEARCH_ID));
     }
 }

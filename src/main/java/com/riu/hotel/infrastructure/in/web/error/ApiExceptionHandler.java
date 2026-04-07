@@ -24,18 +24,12 @@ public class ApiExceptionHandler {
                 .toList();
 
         return ResponseEntity.badRequest()
-                .body(ValidationErrorResponse.builder()
-                        .mensaje(MENSAJE_RESUMEN_VALIDACION)
-                        .errores(errores)
-                        .build());
+                .body(new ValidationErrorResponse(MENSAJE_RESUMEN_VALIDACION, errores));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ValidationErrorResponse> handleInvalidBody(HttpMessageNotReadableException ex) {
         return ResponseEntity.badRequest()
-                .body(ValidationErrorResponse.builder()
-                        .mensaje(MENSAJE_PAYLOAD_ILEGIBLE)
-                        .errores(List.of(ex.getMessage()))
-                        .build());
+                .body(new ValidationErrorResponse(MENSAJE_PAYLOAD_ILEGIBLE, List.of(ex.getMessage())));
     }
 }

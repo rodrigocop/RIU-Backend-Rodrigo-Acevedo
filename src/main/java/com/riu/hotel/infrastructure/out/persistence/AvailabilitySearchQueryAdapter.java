@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import com.riu.hotel.infrastructure.out.persistence.dto.SearchWithCount;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -25,16 +24,14 @@ public class AvailabilitySearchQueryAdapter implements AvailabilitySearchQueryPo
         return repository.findWithDuplicateCount(searchId)
                 .map(result -> {
                     AvailabilitySearchEntity entity = result.entity();
-                    long equalCount = result.count();
-
-                    return EqualSearchesResult.builder()
-                            .searchId(entity.getId())
-                            .hotelId(entity.getHotelId())
-                            .checkIn(entity.getCheckInDate())
-                            .checkOut(entity.getCheckOutDate())
-                            .ages(parseAges(entity.getAges()))
-                            .count(equalCount)
-                            .build();
+                    return new EqualSearchesResult(
+                            entity.getId(),
+                            entity.getHotelId(),
+                            entity.getCheckInDate(),
+                            entity.getCheckOutDate(),
+                            parseAges(entity.getAges()),
+                            result.count()
+                    );
                 });
     }
 

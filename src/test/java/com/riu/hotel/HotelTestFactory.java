@@ -39,14 +39,7 @@ public final class HotelTestFactory {
     }
 
     public static AvailabilitySearch sampleAvailabilitySearch() {
-        return AvailabilitySearch.builder()
-                .searchId(SEARCH_ID)
-                .hotelId(HOTEL_ID)
-                .checkIn(CHECK_IN)
-                .checkOut(CHECK_OUT)
-                .ages(AGES)
-                .requestedAt(REQUESTED_AT)
-                .build();
+        return new AvailabilitySearch(SEARCH_ID, HOTEL_ID, CHECK_IN, CHECK_OUT, AGES, REQUESTED_AT);
     }
 
     public static AvailabilitySearchEntity sampleEntity() {
@@ -62,14 +55,7 @@ public final class HotelTestFactory {
     }
 
     public static EqualSearchesResult sampleEqualSearchesResult() {
-        return EqualSearchesResult.builder()
-                .searchId(SEARCH_ID)
-                .hotelId(HOTEL_ID)
-                .checkIn(CHECK_IN)
-                .checkOut(CHECK_OUT)
-                .ages(AGES)
-                .count(EQUAL_COUNT)
-                .build();
+        return new EqualSearchesResult(SEARCH_ID, HOTEL_ID, CHECK_IN, CHECK_OUT, AGES, EQUAL_COUNT);
     }
 
     public static String sampleSearchPostBody() {

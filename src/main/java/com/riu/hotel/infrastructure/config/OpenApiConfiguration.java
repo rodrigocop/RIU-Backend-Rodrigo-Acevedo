@@ -13,7 +13,7 @@ public class OpenApiConfiguration {
         return new OpenAPI()
                 .info(new Info()
                         .title("API Hotel")
-                        .description("Servicios REST del backend Hotel. Las búsquedas de disponibilidad se publican en Kafka para su procesamiento.")
+                        .description("Servicios REST del backend Hotel")
                         .version("0.0.1-SNAPSHOT"));
     }
 }

@@ -63,12 +63,12 @@ class HotelApiWebMvcTest {
 
         assertAll(
                 () -> verify(publishAvailabilitySearchUseCase).execute(argThat(s ->
-                        HOTEL_ID.equals(s.getHotelId())
-                                && CHECK_IN.equals(s.getCheckIn())
-                                && CHECK_OUT.equals(s.getCheckOut())
-                                && AGES.equals(s.getAges())
-                                && s.getSearchId() != null
-                                && s.getRequestedAt() != null)));
+                        HOTEL_ID.equals(s.hotelId())
+                                && CHECK_IN.equals(s.checkIn())
+                                && CHECK_OUT.equals(s.checkOut())
+                                && AGES.equals(s.ages())
+                                && s.searchId() != null
+                                && s.requestedAt() != null)));
     }
 
     @Test

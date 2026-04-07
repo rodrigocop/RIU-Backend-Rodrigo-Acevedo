@@ -38,7 +38,7 @@ class KafkaAvailabilitySearchProducerAdapterTest {
     void shouldSendKeyedMessageToTopic() throws Exception {
         @SuppressWarnings("unchecked")
         SendResult<String, AvailabilitySearch> sendResult = mock(SendResult.class);
-        when(kafkaTemplate.send(eq(TOPIC), eq(sampleAvailabilitySearch().getSearchId()), eq(sampleAvailabilitySearch())))
+        when(kafkaTemplate.send(eq(TOPIC), eq(sampleAvailabilitySearch().searchId()), eq(sampleAvailabilitySearch())))
                 .thenReturn(CompletableFuture.completedFuture(sendResult));
 
         var adapter = new KafkaAvailabilitySearchProducerAdapter(kafkaTemplate, TOPIC);
@@ -46,13 +46,13 @@ class KafkaAvailabilitySearchProducerAdapterTest {
 
         assertAll(
                 () -> adapter.publish(search),
-                () -> verify(kafkaTemplate).send(TOPIC, search.getSearchId(), search));
+                () -> verify(kafkaTemplate).send(TOPIC, search.searchId(), search));
     }
 
     @Test
     @Timeout(value = 2, unit = TimeUnit.SECONDS)
     void shouldSwallowSendFailure() {
-        when(kafkaTemplate.send(eq(TOPIC), eq(sampleAvailabilitySearch().getSearchId()), eq(sampleAvailabilitySearch())))
+        when(kafkaTemplate.send(eq(TOPIC), eq(sampleAvailabilitySearch().searchId()), eq(sampleAvailabilitySearch())))
                 .thenReturn(CompletableFuture.failedFuture(new RuntimeException("broker")));
 
         var adapter = new KafkaAvailabilitySearchProducerAdapter(kafkaTemplate, TOPIC);
@@ -60,6 +60,6 @@ class KafkaAvailabilitySearchProducerAdapterTest {
 
         assertAll(
                 () -> adapter.publish(search),
-                () -> verify(kafkaTemplate).send(TOPIC, search.getSearchId(), search));
+                () -> verify(kafkaTemplate).send(TOPIC, search.searchId(), search));
     }
 }

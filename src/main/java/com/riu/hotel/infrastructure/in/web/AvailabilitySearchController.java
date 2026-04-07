@@ -72,21 +72,21 @@ public class AvailabilitySearchController {
 
         String searchId = UUID.randomUUID().toString();
 
-        AvailabilitySearch availabilitySearch = AvailabilitySearch.builder()
-                .searchId(searchId)
-                .hotelId(request.getHotelId())
-                .checkIn(request.getCheckIn())
-                .checkOut(request.getCheckOut())
-                .ages(List.copyOf(request.getAges()))
-                .requestedAt(LocalDateTime.now())
-                .build();
+        AvailabilitySearch availabilitySearch = new AvailabilitySearch(
+                searchId,
+                request.hotelId(),
+                request.checkIn(),
+                request.checkOut(),
+                List.copyOf(request.ages()),
+                LocalDateTime.now()
+        );
 
         publishAvailabilitySearchUseCase.execute(availabilitySearch);
         log.info(
                 "Búsqueda encolada: searchId={}, hotelId de trazabilidad {}",
                 searchId,
-                request.getAges());
+                request.hotelId());
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(SearchCreatedResponseDTO.builder().searchId(searchId).build());
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new SearchCreatedResponseDTO(searchId));
     }
 }

@@ -15,7 +15,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import com.riu.hotel.domain.model.EqualSearchesResult;
-import com.riu.hotel.infrastructure.out.persistence.dto.SearchWithCount;
+import com.riu.hotel.infrastructure.out.persistence.dto.SearchMatchDTO;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -52,17 +52,17 @@ class AvailabilitySearchQueryAdapterTest {
     @Test
     void shouldMapRowToEqualSearchesResult() {
         when(repository.findWithDuplicateCount(SEARCH_ID))
-                .thenReturn(Optional.of(new SearchWithCount(sampleEntity(), EQUAL_COUNT)));
+                .thenReturn(Optional.of(new SearchMatchDTO(sampleEntity(), EQUAL_COUNT)));
 
         var result = adapter.findDetailWithEqualCount(SEARCH_ID).orElseThrow();
 
         assertAll(
-                () -> assertEquals(SEARCH_ID, result.getSearchId()),
-                () -> assertEquals(HOTEL_ID, result.getHotelId()),
-                () -> assertEquals(CHECK_IN, result.getCheckIn()),
-                () -> assertEquals(CHECK_OUT, result.getCheckOut()),
-                () -> assertEquals(AGES, result.getAges()),
-                () -> assertEquals(EQUAL_COUNT, result.getCount()),
+                () -> assertEquals(SEARCH_ID, result.searchId()),
+                () -> assertEquals(HOTEL_ID, result.hotelId()),
+                () -> assertEquals(CHECK_IN, result.checkIn()),
+                () -> assertEquals(CHECK_OUT, result.checkOut()),
+                () -> assertEquals(AGES, result.ages()),
+                () -> assertEquals(EQUAL_COUNT, result.count()),
                 () -> verify(repository).findWithDuplicateCount(SEARCH_ID));
     }
 }

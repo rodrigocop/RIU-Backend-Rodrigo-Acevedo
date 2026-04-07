@@ -23,7 +23,7 @@ class ApiExceptionHandlerTest {
 
     @Test
     void shouldMapValidationErrorsToBadRequest() throws Exception {
-        var target = SearchRequestDTO.builder().build();
+        var target = new SearchRequestDTO(null, null, null, List.of());
         BeanPropertyBindingResult bindingResult =
                 new BeanPropertyBindingResult(target, "createAvailabilitySearchRequest");
         bindingResult.addError(new FieldError(
@@ -48,11 +48,11 @@ class ApiExceptionHandlerTest {
                     assertNotNull(response.getBody());
                     assertEquals(
                             "Existen errores en los datos enviados",
-                            response.getBody().getMensaje());
+                            response.getBody().mensaje());
                 },
                 () -> {
                     assertNotNull(response.getBody());
-                    List<String> errors = response.getBody().getErrores();
+                    List<String> errors = response.getBody().errores();
                     assertAll(
                             () -> assertEquals(1, errors.size()),
                             () -> assertTrue(errors.getFirst().contains("hotelId")));
@@ -70,11 +70,11 @@ class ApiExceptionHandlerTest {
                 () -> assertNotNull(response.getBody()),
                 () -> {
                     assertNotNull(response.getBody());
-                    assertTrue(response.getBody().getMensaje().contains("no es válido"));
+                    assertTrue(response.getBody().mensaje().contains("no es válido"));
                 },
                 () -> {
                     assertNotNull(response.getBody());
-                    assertEquals(1, response.getBody().getErrores().size());
+                    assertEquals(1, response.getBody().errores().size());
                 });
     }
 }

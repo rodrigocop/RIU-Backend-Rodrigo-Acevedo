@@ -27,11 +27,11 @@ public class KafkaAvailabilitySearchProducerAdapter implements AvailabilitySearc
         kafkaTemplate
                 .send(
                         hotelAvailabilitySearchesTopic,
-                        availabilitySearch.getSearchId(),
+                        availabilitySearch.searchId(),
                         availabilitySearch)
                 .whenComplete(
                         (result, error) -> {
-                            String searchId = availabilitySearch.getSearchId();
+                            String searchId = availabilitySearch.searchId();
                             if (error != null) {
                                 log.error("Error enviando mensaje a Kafka para searchId={}", searchId, error);
                                 return;

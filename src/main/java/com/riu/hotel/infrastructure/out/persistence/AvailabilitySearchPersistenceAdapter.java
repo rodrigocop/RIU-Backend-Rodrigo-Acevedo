@@ -19,30 +19,30 @@ public class AvailabilitySearchPersistenceAdapter implements AvailabilitySearchP
     @Override
     public void save(AvailabilitySearch availabilitySearch) {
         try {
-            String ages = availabilitySearch.getAges().stream()
+            String ages = availabilitySearch.ages().stream()
                     .map(String::valueOf)
                     .collect(Collectors.joining(","));
             String ageHash = String.valueOf(ages.hashCode());
 
             AvailabilitySearchEntity entity = AvailabilitySearchEntity.builder()
-                    .id(availabilitySearch.getSearchId())
-                    .hotelId(availabilitySearch.getHotelId())
-                    .checkInDate(availabilitySearch.getCheckIn())
-                    .checkOutDate(availabilitySearch.getCheckOut())
+                    .id(availabilitySearch.searchId())
+                    .hotelId(availabilitySearch.hotelId())
+                    .checkInDate(availabilitySearch.checkIn())
+                    .checkOutDate(availabilitySearch.checkOut())
                     .ages(ages)
                     .agesHash(ageHash)
-                    .requestedAt(availabilitySearch.getRequestedAt())
+                    .requestedAt(availabilitySearch.requestedAt())
                     .build();
 
             availabilitySearchRepository.save(entity);
             log.info(
                     "Búsqueda persistida: searchId={}, checkIn={}, checkOut={}, número de edades={}",
-                    availabilitySearch.getSearchId(),
-                    availabilitySearch.getCheckIn(),
-                    availabilitySearch.getCheckOut(),
-                    availabilitySearch.getAges().size());
+                    availabilitySearch.searchId(),
+                    availabilitySearch.checkIn(),
+                    availabilitySearch.checkOut(),
+                    availabilitySearch.ages().size());
         } catch (Exception e) {
-            log.error("No se pudo guardar la entidad con el searchId={}", availabilitySearch.getSearchId(), e);
+            log.error("No se pudo guardar la entidad con el searchId={}", availabilitySearch.searchId(), e);
             throw new IllegalStateException("Error al persistir búsqueda", e);
         }
     }
